@@ -9,6 +9,14 @@ def test_zero_subtotal_returns_zero_shares():
     assert split_bill("0", 2) == [Decimal("0.00"), Decimal("0.00")]
 
 
+def test_even_split():
+    assert split_bill("42.00", 3) == [Decimal("14.00")] * 3
+
+
+def test_tip_is_included():
+    assert split_bill("80.00", 4, 25) == [Decimal("25.00")] * 4
+
+
 @pytest.mark.parametrize("people", [0, -1, 2.5, True])
 def test_people_must_be_a_positive_integer(people):
     with pytest.raises(ValueError, match="positive integer"):
